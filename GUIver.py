@@ -14,20 +14,23 @@ directory = 'loadRatio'
 filename = date + '_object.pkl'
 filepath = os.path.join(directory, filename)
 
+
 def getRate(kd1, kd2):
     # 请求URL并把结果用BeautifulSoup解析
-        url = 'http://www.webmasterhome.cn/huilv/' + kd1 + '/' + kd1 + kd2 + '/'
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        try:
-            rt = float(soup.select('#ExResult > div.exres > div.mexltop > span')[0].text)
-            ratio[kd1 + kd2] = rt
-        except ValueError:
-            messagebox.showerror("错误", "获取汇率信息失败")
-            dropdown.set(defname)
-            dropdown1.set(defname1)
-            return -1
-        
+    url = 'http://www.webmasterhome.cn/huilv/' + kd1 + '/' + kd1 + kd2 + '/'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    try:
+        rt = float(
+            soup.select('#ExResult > div.exres > div.mexltop > span')[0].text)
+        ratio[kd1 + kd2] = rt
+    except ValueError:
+        messagebox.showerror("错误", "获取汇率信息失败")
+        dropdown.set(defname)
+        dropdown1.set(defname1)
+        return -1
+
+
 # 创建目录（如果不存在）
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -63,7 +66,8 @@ def work(kd1, kd2, tsr1, tsr2):
     #         dropdown.set(defname)
     #         dropdown1.set(defname1)
     #         return -1
-    result_text.insert(tk.END,'现在' + tsr1 + '对' + tsr2 + '的汇率为：' + str(rt) + '\n')
+    result_text.insert(tk.END,
+                       '现在' + tsr1 + '对' + tsr2 + '的汇率为：' + str(rt) + '\n')
     return rt
 
 
