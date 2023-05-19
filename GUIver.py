@@ -4,30 +4,49 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import time
-import pickle
+import json
 import os
+import threading
 
-date = time.strftime('%Y%m%d', time.localtime(time.time()))
-ratio = {}
 money = ["TRY", "ARS", "CNY", "USD"]
 directory = 'loadRatio'
-filename = date + '_object.pkl'
+filename = 'exchange rate.json'
 filepath = os.path.join(directory, filename)
 
 
+def get_current_timestamp():
+    return int(time.time())
+
+def on_closing():
+    with open(filepath,'w') as file:
+        json.dump(ratio,file)
+        root.destroy()
+
 def getRate(kd1, kd2):
     # 请求URL并把结果用BeautifulSoup解析
-    url = 'https://www.waihui999.com/{0}{1}/#100'.format(kd1.lower(),kd2.lower())
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'lxml')
+    if kd1==kd2:
+        ratio[kd1 + kd2]["rate"] = 1.0
+        ratio[kd1 + kd2]["timestamp"] = get_current_timestamp()  
+        return 0   
+    try:
+        url = 'https://www.waihui999.com/{0}{1}/#100'.format(
+            kd1.lower(), kd2.lower())
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'lxml')
+    except requests.exceptions.ProxyError:
+        messagebox.showwarning("警告", "请关闭代理软件再次尝试")
+        return -1
+    except requests.exceptions.ConnectionError:
+        messagebox.showerror("错误","没有正常的网络连接无法正常使用")
     try:
         rt = float(
             soup.select(
                 'body > div.wrapper > div.container > div > div.mod-panel > div.ft > table:nth-child(1) > tbody > tr > td:nth-child(2)'
             )[0].text)
-        ratio[kd1 + kd2] = rt
+        ratio[kd1 + kd2]["rate"] = rt
+        ratio[kd1 + kd2]["timestamp"] = get_current_timestamp()
     except ValueError:
-        messagebox.showerror("错误", "获取汇率信息失败")
+        messagebox.showerror("错误", "解析html文件获取汇率信息失败")
         dropdown.set(defname)
         dropdown1.set(defname1)
         return -1
@@ -39,37 +58,35 @@ if not os.path.exists(directory):
 
 try:
     with open(filepath, 'rb') as file:
-        ratio = pickle.load(file)
+        ratio = json.load(file)
 except FileNotFoundError:
-    for i in money:
-        for j in money:
-            if i != j:
-                getRate(i, j)
-            else:
-                ratio[i + j] = 1
-    with open(filepath, 'wb') as file:
-        pickle.dump(ratio, file)
+    ratio = {}
+
+
+def remindtext(mes):
+    messagebox.showwarning(tk.END, mes)
 
 
 def work(kd1, kd2, tsr1, tsr2):
-    # if kd1 + kd2 in ratio.keys():
-    rt = ratio[kd1 + kd2]
-    # else:
-    #     # 请求URL并把结果用BeautifulSoup解析
-    #     url = 'http://www.webmasterhome.cn/huilv/' + kd1 + '/' + kd1 + kd2 + '/'
-    #     response = requests.get(url)
-    #     soup = BeautifulSoup(response.content, 'html.parser')
-
-    #     try:
-    #         rt = float(
-    #             soup.select('#ExResult > div.exres > div.mexltop > span')
-    #             [0].text)
-    #         ratio[kd1 + kd2] = rt
-    #     except ValueError:
-    #         messagebox.showerror("错误", "获取汇率信息失败")
-    #         dropdown.set(defname)
-    #         dropdown1.set(defname1)
-    #         return -1
+    current_timestamp = get_current_timestamp()
+    one_hour_ago = current_timestamp - 3600
+    if kd1 + kd2 in ratio.keys():
+        if "timestamp" not in ratio[kd1 + kd2].keys() or ratio[
+                kd1 + kd2]["timestamp"] < one_hour_ago:
+            ratio[kd1 + kd2] = {}
+            remindtext("本地汇率信息损坏或过期超过1小时，重新获取在线汇率中，请稍等......\n")
+            if getRate(kd1, kd2) == -1:
+                return -1
+    else:
+        ratio.setdefault(kd1 + kd2, {})
+        remindtext("本地汇率信息不存在，重新获取在线汇率中，请稍等......\n")
+        if getRate(kd1, kd2) == -1:
+            return -1
+    if "rate" not in ratio[kd1 + kd2].keys():
+        remindtext("本地汇率信息损坏，重新获取在线汇率中，请稍等......\n")
+        if getRate(kd1, kd2) == -1:
+            return -1
+    rt = ratio[kd1 + kd2]["rate"]
     result_text.insert(tk.END,
                        '现在' + tsr1 + '对' + tsr2 + '的汇率为：' + str(rt) + '\n')
     return rt
@@ -193,7 +210,7 @@ scrollbar.place(x=333, y=126, height=263)
 result_text.config(yscrollcommand=scrollbar.set)
 
 input_field.bind("<Return>", calculate)
-
+root.protocol("WM_DELETE_WINDOW", on_closing)
 # 设置第3行的大小
 #root.rowconfigure(3, weight=1)
 
