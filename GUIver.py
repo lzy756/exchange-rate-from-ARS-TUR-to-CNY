@@ -17,12 +17,14 @@ filepath = os.path.join(directory, filename)
 
 def getRate(kd1, kd2):
     # 请求URL并把结果用BeautifulSoup解析
-    url = 'http://www.webmasterhome.cn/huilv/' + kd1 + '/' + kd1 + kd2 + '/'
+    url = 'https://www.waihui999.com/{0}{1}/#100'.format(kd1.lower(),kd2.lower())
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.content, 'lxml')
     try:
         rt = float(
-            soup.select('#ExResult > div.exres > div.mexltop > span')[0].text)
+            soup.select(
+                'body > div.wrapper > div.container > div > div.mod-panel > div.ft > table:nth-child(1) > tbody > tr > td:nth-child(2)'
+            )[0].text)
         ratio[kd1 + kd2] = rt
     except ValueError:
         messagebox.showerror("错误", "获取汇率信息失败")
@@ -43,6 +45,8 @@ except FileNotFoundError:
         for j in money:
             if i != j:
                 getRate(i, j)
+            else:
+                ratio[i + j] = 1
     with open(filepath, 'wb') as file:
         pickle.dump(ratio, file)
 
