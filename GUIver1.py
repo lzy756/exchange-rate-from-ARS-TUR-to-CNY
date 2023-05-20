@@ -123,7 +123,6 @@ opt = ["", ""]
 
 
 def update_currency(option, num):
-    print(option, num)
     global rt
     global kd
     global opt
