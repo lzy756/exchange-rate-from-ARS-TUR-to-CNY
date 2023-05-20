@@ -8,11 +8,13 @@
 #导入程序运行必须模块
 import sys
 #PyQt5中使用的基本控件都在PyQt5.QtWidgets模块中
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTextBrowser
 #导入designer工具生成的login模块
 from GUI import Ui_Form
+from GUI2 import Ui_secondForm
 import os
 from PyQt5 import QtCore
+from PyQt5.QtCore import QPoint
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -39,18 +41,19 @@ def getRate(kd1, kd2):
     if kd1 == kd2:
         ratio[kd1 + kd2]["rate"] = 1.0
         ratio[kd1 + kd2]["timestamp"] = get_current_timestamp()
-        return 0
+        return 1.0
     try:
         url = 'https://www.waihui999.com/{0}{1}/#100'.format(
             kd1.lower(), kd2.lower())
         response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'lxml')
     except requests.exceptions.ProxyError:
         myWin.showwarning("请关闭代理软件再次尝试")
         return -1
     except requests.exceptions.ConnectionError:
         myWin.showerror("没有正常的网络连接无法正常使用")
+        return -1
     try:
+        soup = BeautifulSoup(response.content, 'lxml')
         rt = float(
             soup.select(
                 'body > div.wrapper > div.container > div > div.mod-panel > div.ft > table:nth-child(1) > tbody > tr > td:nth-child(2)'
@@ -62,6 +65,7 @@ def getRate(kd1, kd2):
         myWin.fromcomboBox.setCurrentText("请选择")
         myWin.tocomboBox.setCurrentText("请选择")
         return -1
+    return rt
 
 
 # 创建目录（如果不存在）
@@ -99,19 +103,36 @@ def work(kd1, kd2, tsr1, tsr2):
         if getRate(kd1, kd2) == -1:
             return -1
     rt = ratio[kd1 + kd2]["rate"]
-    myWin.showtextBrowser.append('现在' + tsr1 + '对' + tsr2 + '的汇率为：' + str(rt))
+    myWin.hvEdit.setText('{:f}'.format(rt))
+    myWin.showtextBrowser.append('现在' + tsr1 + '对' + tsr2 +
+                                 '的汇率为：{:f}'.format(rt))
+    if (secondWin.isVisible()):
+        secondWin.showtextBrowser.append('现在' + tsr1 + '对' + tsr2 +
+                                         '的汇率为：{:f}'.format(rt))
     return rt
 
 
 def calculate():
-    if rt == 0:
-        getRate(kd[0], kd[1])
-        remindtext("汇率信息获取错误，重新获取在线汇率中，请稍等......")
+    global rt
     try:
+        if rt == 0 or rt == -1:
+            if kd[0] not in money or kd[1] not in money:
+                raise NameError
+            remindtext("汇率信息获取错误，重新获取汇率中，请稍等......")
+            rt = getRate(kd[0], kd[1])
+            if rt == -1:
+                return -1
+            myWin.hvEdit.setText('{:f}'.format(rt))
         a = float(myWin.lineEdit.text())
         myWin.showtextBrowser.append(myWin.lineEdit.text() + kd[0] + '兑换为' +
-                                     opt[1] + '的结果为：{:.2f}'.format(a * rt) +
+                                     opt[1] + '的结果为：{:f}'.format(a * rt) +
                                      kd[1])
+        if (secondWin.isVisible()):
+            secondWin.showtextBrowser.append(myWin.lineEdit.text() + kd[0] +
+                                             '兑换为' + opt[1] +
+                                             '的结果为：{:f}'.format(a * rt) +
+                                             kd[1])
+        myWin.outEdit.setText('{:f}'.format(a * rt))
     except ValueError:
         myWin.showerror("输入的不是数字")
     except NameError:
@@ -126,6 +147,9 @@ def update_currency(option, num):
     global rt
     global kd
     global opt
+    rt = 0
+    myWin.hvEdit.setText("")
+    myWin.outEdit.setText("")
     opt[num] = option
     if option == "里拉":
         kd[num] = "TRY"
@@ -137,6 +161,7 @@ def update_currency(option, num):
         kd[num] = "USD"
     else:
         kd[num] = ""
+
     if kd[0] in money and kd[1] in money:
         rt = work(*kd, opt[0], opt[1])
 
@@ -145,6 +170,9 @@ def update_2currency(option1, option2, num1, num2):
     global rt
     global kd
     global opt
+    rt = 0
+    myWin.hvEdit.setText("")
+    myWin.outEdit.setText("")
     opt[num1] = option1
     if option1 == "里拉":
         kd[num1] = "TRY"
@@ -168,6 +196,7 @@ def update_2currency(option1, option2, num1, num2):
         kd[num2] = "USD"
     else:
         kd[num2] = ""
+
     if kd[0] in money and kd[1] in money:
         rt = work(*kd, opt[0], opt[1])
 
@@ -179,6 +208,16 @@ def swap():
     myWin.fromcomboBox.setCurrentText(value2)
     myWin.tocomboBox.setCurrentText(value1)
     update_2currency(value2, value1, 0, 1)
+
+
+def showsec():
+    if (not secondWin.isVisible()):
+        secondWin.move(myWin.geometry().right() - 200, myWin.geometry().top())
+        text = myWin.showtextBrowser.toPlainText()
+        secondWin.showtextBrowser.setPlainText(text)
+        secondWin.show()
+    else:
+        secondWin.close()
 
 
 class MyMainForm(QMainWindow, Ui_Form):
@@ -195,6 +234,29 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.tocomboBox.activated[str].connect(upd2)
         self.calbutton.clicked.connect(calculate)
         self.changeButton.clicked.connect(swap)
+        self.historybuttom.clicked.connect(showsec)
+        self.showtextBrowser = QTextBrowser(self)
+        self.showtextBrowser.setHidden(True)
+
+    def closeEvent(self, event):
+        on_closing()
+        event.accept()
+
+    def showerror(self, mes):
+        QMessageBox.critical(self, "错误", mes, QMessageBox.Ok)
+
+    def showwarning(self, mes):
+        QMessageBox.warning(self, "警告", mes, QMessageBox.Ok)
+
+    def showinfo(self, mes):
+        QMessageBox.information(self, "信息", mes, QMessageBox.Ok)
+
+
+class MyMainForm1(QMainWindow, Ui_secondForm):
+
+    def __init__(self, parent=None):
+        super(MyMainForm1, self).__init__(parent)
+        self.setupUi(self)
         self.clearButton.clicked.connect(self.clear_text)
 
     def closeEvent(self, event):
@@ -212,6 +274,7 @@ class MyMainForm(QMainWindow, Ui_Form):
 
     def clear_text(self):
         self.showtextBrowser.clear()
+        myWin.showtextBrowser.clear()
 
 
 if __name__ == "__main__":
@@ -220,6 +283,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     #初始化
     myWin = MyMainForm()
+    secondWin = MyMainForm1()
     #将窗口控件显示在屏幕上
     myWin.show()
     #程序运行，sys.exit方法确保程序完整退出。
