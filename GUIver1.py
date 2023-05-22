@@ -219,6 +219,23 @@ def showsec():
     else:
         secondWin.close()
 
+def textchange():
+    a=myWin.chbEdit.text()
+    b=myWin.sellEdit.text()
+    print(a,b)
+    myWin.sjEdit.setText("")
+    myWin.blvEdit.setText("")
+    try:
+        if b!="":
+            b=float(b)
+            c=b*0.87
+            myWin.sjEdit.setText("{:.6f}".format(c))
+            if a!="":
+                a=float(a)
+                d=a/c
+                myWin.blvEdit.setText('{:.6f}'.format(d))
+    except ValueError:
+        pass
 
 class MyMainForm(QMainWindow, Ui_Form):
 
@@ -237,6 +254,8 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.historybuttom.clicked.connect(showsec)
         self.showtextBrowser = QTextBrowser(self)
         self.showtextBrowser.setHidden(True)
+        self.chbEdit.textChanged.connect(textchange)
+        self.sellEdit.textChanged.connect(textchange)
 
     def closeEvent(self, event):
         on_closing()

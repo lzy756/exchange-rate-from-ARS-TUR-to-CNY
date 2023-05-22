@@ -81,9 +81,9 @@
   <widget class="QPushButton" name="calbutton">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>370</y>
-     <width>81</width>
+     <x>270</x>
+     <y>340</y>
+     <width>71</width>
      <height>41</height>
     </rect>
    </property>
@@ -262,8 +262,8 @@ color: rgb(74, 255, 240);
   <widget class="QPushButton" name="historybuttom">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>480</y>
+     <x>390</x>
+     <y>380</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -280,9 +280,9 @@ color: rgb(74, 255, 240);
   <widget class="QLineEdit" name="hvEdit">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>250</x>
      <y>80</y>
-     <width>121</width>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
@@ -293,9 +293,9 @@ color: rgb(74, 255, 240);
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>250</x>
      <y>40</y>
-     <width>121</width>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
@@ -315,6 +315,156 @@ color: rgb(74, 255, 240);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLineEdit" name="chbEdit">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>450</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>400</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(74, 255, 240);
+</string>
+   </property>
+   <property name="text">
+    <string>成本</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="sellEdit">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>550</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(74, 255, 240);
+</string>
+   </property>
+   <property name="text">
+    <string>售价</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="sjEdit">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>550</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(74, 255, 240);
+</string>
+   </property>
+   <property name="text">
+    <string>实际收到</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="blvEdit">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>450</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>400</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(74, 255, 240);
+</string>
+   </property>
+   <property name="text">
+    <string>比率</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>listView</zorder>
   <zorder>fromcomboBox</zorder>
   <zorder>tocomboBox</zorder>
@@ -329,6 +479,14 @@ color: rgb(74, 255, 240);</string>
   <zorder>historybuttom</zorder>
   <zorder>hvEdit</zorder>
   <zorder>label_5</zorder>
+  <zorder>chbEdit</zorder>
+  <zorder>label_6</zorder>
+  <zorder>sellEdit</zorder>
+  <zorder>label_7</zorder>
+  <zorder>sjEdit</zorder>
+  <zorder>label_8</zorder>
+  <zorder>blvEdit</zorder>
+  <zorder>label_9</zorder>
  </widget>
  <resources>
   <include location="picture.qrc"/>
