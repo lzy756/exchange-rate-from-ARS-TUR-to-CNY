@@ -56,35 +56,49 @@ def getRate(kd1, kd2):
 if not os.path.exists(directory):
     os.makedirs(directory)
 
+ratio = {}
+
 
 def remindtext(mes):
     myWin.showinfo(mes)
 
 
+def on_closing():
+    for item in money:
+        if item not in ratio.keys():
+            continue
+        filename = item + '.json'
+        filepath = os.path.join(directory, filename)
+        with open(filepath, 'w') as file:
+            json.dump(ratio[item], file)
+
+
 def work(kd1, kd2, tsr1, tsr2):
-    filename = kd1 + '.json'
-    filepath = os.path.join(directory, filename)
-    try:
-        with open(filepath, 'rb') as file:
-            ratio = json.load(file)
-    except FileNotFoundError:
-        remindtext("本地汇率信息不存在，重新获取在线汇率中，请稍等......")
-        ratio = getRate(kd1, kd2)
-        if ratio == -1:
-            return -1
-    with open(filepath, 'w') as file:
-        json.dump(ratio, file)
+    global ratio
+    if kd1 not in ratio.keys() or ratio[kd1] == -1:
+        filename = kd1 + '.json'
+        filepath = os.path.join(directory, filename)
+        try:
+            with open(filepath, 'rb') as file:
+                ratio[kd1] = json.load(file)
+        except FileNotFoundError:
+            remindtext("本地汇率信息不存在，重新获取在线汇率中，请稍等......")
+            ratio[kd1] = getRate(kd1, kd2)
+            if ratio[kd1] == -1:
+                return -1
     current_timestamp = get_current_timestamp()
-    if "time_next_update_unix" not in ratio.keys(
-    ) or ratio["time_next_update_unix"] <= current_timestamp:
+    if "time_next_update_unix" not in ratio[kd1].keys(
+    ) or ratio[kd1]["time_next_update_unix"] <= current_timestamp:
         remindtext("本地汇率信息损坏或过期超过1天，重新获取在线汇率中，请稍等......")
-        if getRate(kd1, kd2) == -1:
+        ratio[kd1] = getRate(kd1, kd2)
+        if ratio[kd1] == -1:
             return -1
-    if "conversion_rates" not in ratio.keys():
+    if "conversion_rates" not in ratio[kd1].keys():
         remindtext("本地汇率信息损坏，重新获取在线汇率中，请稍等......")
-        if getRate(kd1, kd2) == -1:
+        ratio[kd1] = getRate(kd1, kd2)
+        if ratio[kd1] == -1:
             return -1
-    rt = ratio["conversion_rates"][kd2]
+    rt = ratio[kd1]["conversion_rates"][kd2]
     myWin.hvEdit.setText('{:f}'.format(rt))
     myWin.showtextBrowser.append('现在' + tsr1 + '对' + tsr2 +
                                  '的汇率为：{:f}'.format(rt))
@@ -240,6 +254,10 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.showtextBrowser.setHidden(True)
         self.chbEdit.textChanged.connect(textchange)
         self.sellEdit.textChanged.connect(textchange)
+
+    def closeEvent(self, event):
+        on_closing()
+        event.accept()
 
     def showerror(self, mes):
         QMessageBox.critical(self, "错误", mes, QMessageBox.Ok)
