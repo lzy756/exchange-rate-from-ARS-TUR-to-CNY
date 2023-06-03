@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI.ui'
+# Form implementation generated from reading ui file '.\GUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -23,7 +23,7 @@ class Ui_Form(object):
         Form.setMinimumSize(QtCore.QSize(956, 596))
         Form.setMaximumSize(QtCore.QSize(956, 596))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("1.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(".\\1.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
         Form.setStyleSheet("")
         self.fromcomboBox = QtWidgets.QComboBox(Form)
@@ -176,6 +176,12 @@ class Ui_Form(object):
 "")
         self.label_9.setAlignment(QtCore.Qt.AlignCenter)
         self.label_9.setObjectName("label_9")
+        self.batbottom = QtWidgets.QPushButton(Form)
+        self.batbottom.setGeometry(QtCore.QRect(390, 490, 141, 41))
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑 Light")
+        self.batbottom.setFont(font)
+        self.batbottom.setObjectName("batbottom")
         self.listView.raise_()
         self.fromcomboBox.raise_()
         self.tocomboBox.raise_()
@@ -198,6 +204,7 @@ class Ui_Form(object):
         self.label_8.raise_()
         self.blvEdit.raise_()
         self.label_9.raise_()
+        self.batbottom.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -218,4 +225,5 @@ class Ui_Form(object):
         self.label_7.setText(_translate("Form", "售价"))
         self.label_8.setText(_translate("Form", "实际收到"))
         self.label_9.setText(_translate("Form", "比率"))
+        self.batbottom.setText(_translate("Form", "运行脚本设置代理"))
 import picture_rc

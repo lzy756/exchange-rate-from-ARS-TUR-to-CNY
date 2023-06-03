@@ -465,6 +465,24 @@ color: rgb(74, 255, 240);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="batbottom">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>490</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>运行脚本设置代理</string>
+   </property>
+  </widget>
   <zorder>listView</zorder>
   <zorder>fromcomboBox</zorder>
   <zorder>tocomboBox</zorder>
@@ -487,6 +505,7 @@ color: rgb(74, 255, 240);
   <zorder>label_8</zorder>
   <zorder>blvEdit</zorder>
   <zorder>label_9</zorder>
+  <zorder>batbottom</zorder>
  </widget>
  <resources>
   <include location="picture.qrc"/>

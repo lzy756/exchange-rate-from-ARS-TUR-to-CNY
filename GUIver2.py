@@ -19,6 +19,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 import time
+import subprocess
 
 money = ["TRY", "ARS", "CNY", "USD"]
 currency_options = ["里拉", "阿根廷比索", "人民币", "美元"]
@@ -30,6 +31,7 @@ def get_current_timestamp():
 
 
 def getRate(kd1, kd2):
+    global kd
     # 请求API数据获得json数据文件
     try:
         url = 'https://v6.exchangerate-api.com/v6/c1a980535936f1408d0555f4/latest/{}'.format(
@@ -38,11 +40,15 @@ def getRate(kd1, kd2):
         data = response.json()
     except requests.exceptions.ProxyError:
         myWin.showwarning("请关闭代理软件再次尝试")
+        kd[0]=""
+        kd[1]=""
         myWin.fromcomboBox.setCurrentText("请选择")
         myWin.tocomboBox.setCurrentText("请选择")
         return -1
     except requests.exceptions.ConnectionError:
         myWin.showerror("没有正常的网络连接无法正常使用")
+        kd[0]=""
+        kd[1]=""
         myWin.fromcomboBox.setCurrentText("请选择")
         myWin.tocomboBox.setCurrentText("请选择")
         return -1
@@ -110,6 +116,7 @@ def work(kd1, kd2, tsr1, tsr2):
 
 def calculate():
     global rt
+    global kd
     try:
         if rt == 0 or rt == -1:
             if kd[0] not in money or kd[1] not in money:
@@ -234,6 +241,12 @@ def textchange():
     except ValueError:
         pass
 
+def SetProxy():
+    result = subprocess.run("修改代理设置.bat",shell=True)
+    if result.returncode == 0:
+        remindtext("代理修改成功")
+    else:
+        myWin.showerror("代理设置失败")
 
 class MyMainForm(QMainWindow, Ui_Form):
 
@@ -254,6 +267,7 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.showtextBrowser.setHidden(True)
         self.chbEdit.textChanged.connect(textchange)
         self.sellEdit.textChanged.connect(textchange)
+        self.batbottom.clicked.connect(SetProxy)
 
     def closeEvent(self, event):
         on_closing()
