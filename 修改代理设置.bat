@@ -22,5 +22,10 @@ echo %newValue%
 REM 修改注册表项
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /t REG_SZ /d "%newValue%" /f
 
+REM 提取端口号并保存到port.txt
+for /f "tokens=3 delims=:" %%X in ("%newValue%") do (
+   echo %%X > "%~dp0\port.txt"
+)
+
 endlocal
 
