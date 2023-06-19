@@ -37,12 +37,13 @@ def getRate(kd1, kd2):
     global kd
     # 请求API数据获得json数据文件
     try:
+        time.sleep(3)
         kd1 = currency_details[kd1]["eCurrencyCode"]
         kd2 = currency_details[kd2]["eCurrencyCode"]
         FtoC1, CtoF1, timestamp1 = fetchrate(kd1)
         FtoC2, CtoF2, timestamp2 = fetchrate(kd2)
     except requests.exceptions.ProxyError:
-        myWin.showwarning("请关闭代理软件再次尝试")
+        myWin.showwarning("请运行脚本设置代理后重试")
         kd[0] = ""
         kd[1] = ""
         myWin.fromcomboBox.setCurrentText("请选择")
@@ -56,7 +57,7 @@ def getRate(kd1, kd2):
         myWin.tocomboBox.setCurrentText("请选择")
         return -1
     if FtoC1 == -1 or FtoC2 == -1:
-        myWin.showerror("获取在线汇率失败，请重试")
+        myWin.showerror("获取在线汇率失败，请重试（不要过于频繁的尝试，多次失败建议等一会儿）")
         return -1
     if FtoC1 == -2 or FtoC2 == -2:
         remindtext("请先运行脚本配置代理")

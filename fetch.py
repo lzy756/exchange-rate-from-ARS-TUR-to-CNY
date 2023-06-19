@@ -2,7 +2,7 @@ import requests
 import time
 
 def fetchrate(kind):
-    time.sleep(3)
+    #time.sleep(3)
     url = 'https://steamcommunity.com/market/listings/730/Souvenir%20Sawed-Off%20%7C%20Snake%20Camo%20(Well-Worn)/render/?query=&start=40&count=100&currency={}'.format(kind)
 
     headers = {
