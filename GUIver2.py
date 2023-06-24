@@ -77,6 +77,7 @@ def on_closing():
         filepath = os.path.join(directory, filename)
         with open(filepath, 'w') as file:
             json.dump(ratio[item], file)
+    secondWin.close()
 
 
 def work(kd1, kd2, tsr1, tsr2):
@@ -226,20 +227,43 @@ def showsec():
 def textchange():
     a = myWin.chbEdit.text()
     b = myWin.sellEdit.text()
-    print(a, b)
-    myWin.sjEdit.setText("")
+    c = myWin.sjEdit.text()
     myWin.blvEdit.setText("")
+    myWin.sjEdit.textChanged.disconnect(textchange)
+    myWin.sellEdit.textChanged.disconnect(textchange)
     try:
-        if b != "":
-            b = float(b)
-            c = b * 0.87
-            myWin.sjEdit.setText("{:.6f}".format(c))
-            if a != "":
+        sender = myWin.sender()
+        if sender == myWin.chbEdit:
+            c = float(c)
+            a = float(a)
+            d = a / c
+            myWin.blvEdit.setText('{:.6f}'.format(d))
+        if sender == myWin.sellEdit:
+            if b != "":
+                b = float(b)
+                c = b * 0.87
+                myWin.sjEdit.setText('{:.6f}'.format(c))
                 a = float(a)
                 d = a / c
                 myWin.blvEdit.setText('{:.6f}'.format(d))
+            else:
+                myWin.sjEdit.setText('')
+        if sender == myWin.sjEdit:
+            if c != "":
+                c = float(c)
+                b = c / 0.87
+                myWin.sellEdit.setText('{:.6f}'.format(b))
+                a = float(a)
+                d = a / c
+                myWin.blvEdit.setText('{:.6f}'.format(d))
+            else:
+                myWin.sellEdit.setText('')
     except ValueError:
         pass
+    except ZeroDivisionError:
+        pass
+    myWin.sjEdit.textChanged.connect(textchange)
+    myWin.sellEdit.textChanged.connect(textchange)
 
 def SetProxy():
     result = subprocess.run("修改代理设置.bat",shell=True)
@@ -266,6 +290,7 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.showtextBrowser = QTextBrowser(self)
         self.showtextBrowser.setHidden(True)
         self.chbEdit.textChanged.connect(textchange)
+        self.sjEdit.textChanged.connect(textchange)
         self.sellEdit.textChanged.connect(textchange)
         self.batbottom.clicked.connect(SetProxy)
 
@@ -305,6 +330,7 @@ class MyMainForm1(QMainWindow, Ui_secondForm):
 
 
 if __name__ == "__main__":
+    result = subprocess.run("修改代理设置.bat", shell=True)
     #固定的，PyQt5程序都需要QApplication对象。sys.argv是命令行参数列表，确保程序可以双击运行
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)

@@ -15,6 +15,8 @@ class Ui_secondForm(object):
     def setupUi(self, secondForm):
         secondForm.setObjectName("secondForm")
         secondForm.resize(582, 410)
+        secondForm.setMinimumSize(QtCore.QSize(582, 410))
+        secondForm.setMaximumSize(QtCore.QSize(582, 410))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\1.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         secondForm.setWindowIcon(icon)
