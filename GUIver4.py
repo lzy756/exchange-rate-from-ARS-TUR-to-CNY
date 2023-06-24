@@ -105,7 +105,7 @@ def work(kd1, kd2, tsr1, tsr2):
     filename = 'Gprice.json'
     filepath = os.path.join(directory, filename)
     try:
-        if kd1 not in ratio.keys() or kd2 not in ratio.keys():
+        if ratio == -1 or kd1 not in ratio.keys() or kd2 not in ratio.keys():
             with open(filepath, 'r') as f:
                 ratio = json.load(f)
     except FileNotFoundError:
@@ -117,17 +117,23 @@ def work(kd1, kd2, tsr1, tsr2):
     if ratio == -1:
         remindtext("本地数据损坏，获取steam价格中，请稍等......")
         ratio = getRate()
+        if ratio == -1:
+            return -1
     if (kd1 not in ratio.keys()) or (kd2 not in ratio.keys()):
         remindtext("本地数据损坏，获取steam价格中，请稍等......")
         ratio = getRate()
+        if ratio == -1:
+            return -1
     if "timestamp" not in ratio.keys():
         remindtext("本地数据损坏，获取steam价格中，请稍等......")
         ratio = getRate()
+        if ratio == -1:
+            return -1
     if ratio['timestamp'] <= get_current_timestamp() - 6 * 60 * 60:
         remindtext("本地数据过时超过6小时，重新获取steam价格中，请稍等......")
         ratio = getRate()
-    if ratio == -1:
-        return -1
+        if ratio == -1:
+            return -1
     pr1 = ratio[kd1]
     pr2 = ratio[kd2]
     rt = pr2 / pr1
