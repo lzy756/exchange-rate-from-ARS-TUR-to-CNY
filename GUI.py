@@ -150,7 +150,7 @@ class Ui_Form(object):
         self.label_7.setObjectName("label_7")
         self.sjEdit = QtWidgets.QLineEdit(Form)
         self.sjEdit.setGeometry(QtCore.QRect(230, 550, 121, 31))
-        self.sjEdit.setReadOnly(True)
+        self.sjEdit.setReadOnly(False)
         self.sjEdit.setObjectName("sjEdit")
         self.label_8 = QtWidgets.QLabel(Form)
         self.label_8.setGeometry(QtCore.QRect(230, 500, 121, 31))

@@ -397,7 +397,7 @@ color: rgb(74, 255, 240);
     </rect>
    </property>
    <property name="readOnly">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">

@@ -38,10 +38,10 @@ def getRate():
         with open('port.txt', 'r') as f:
             port = int(f.readline())
         res = {}
-        Fprice(res, port)
+        rcode = Fprice(res, port)
         res['timestamp'] = get_current_timestamp()
     except FileNotFoundError:
-        myWin.showwarning("请运行脚本设置代理后重试")
+        myWin.showwarning("请运行脚本设置代理或更换代理IP后重试")
         kd[0] = ""
         kd[1] = ""
         myWin.fromcomboBox.setCurrentText("请选择")
@@ -61,7 +61,10 @@ def getRate():
         myWin.fromcomboBox.setCurrentText("请选择")
         myWin.tocomboBox.setCurrentText("请选择")
         return -1
-    print(res)
+    #print(res)
+    if rcode == -1:
+        myWin.showerror("请求失败，请稍后重试或者更换代理IP")
+        return -1
     return res
 
 
@@ -79,8 +82,21 @@ def remindtext(mes):
 def on_closing():
     filename = 'Gprice.json'
     filepath = os.path.join(directory, filename)
-    with open(filepath, 'w') as file:
-        json.dump(ratio, file)
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, 'r') as f:
+                pre_tstamp = json.load(f)['timestamp']
+            if type(ratio) == dict and "timestamp" in ratio.keys(
+            ) and ratio["timestamp"] > pre_tstamp:
+                with open(filepath, 'w') as file:
+                    json.dump(ratio, file)
+        except TypeError:
+            with open(filepath, 'w') as file:
+                json.dump(ratio, file)
+    else:
+        if ratio != -1:
+            with open(filepath, 'w') as file:
+                json.dump(ratio, file)
     secondWin.close()
 
 
@@ -89,10 +105,17 @@ def work(kd1, kd2, tsr1, tsr2):
     filename = 'Gprice.json'
     filepath = os.path.join(directory, filename)
     try:
-        with open(filepath, 'r') as f:
-            ratio = json.load(f)
+        if kd1 not in ratio.keys() or kd2 not in ratio.keys():
+            with open(filepath, 'r') as f:
+                ratio = json.load(f)
     except FileNotFoundError:
         remindtext("本地数据不存在，获取steam价格中，请稍等......")
+        ratio = getRate()
+        if ratio == -1:
+            myWin.showerror("获取steam价格失败，请重试")
+            return -1
+    if ratio == -1:
+        remindtext("本地数据损坏，获取steam价格中，请稍等......")
         ratio = getRate()
     if (kd1 not in ratio.keys()) or (kd2 not in ratio.keys()):
         remindtext("本地数据损坏，获取steam价格中，请稍等......")
@@ -100,7 +123,7 @@ def work(kd1, kd2, tsr1, tsr2):
     if "timestamp" not in ratio.keys():
         remindtext("本地数据损坏，获取steam价格中，请稍等......")
         ratio = getRate()
-    if ratio['timestamp'] <= get_current_timestamp() - 6*60*60:
+    if ratio['timestamp'] <= get_current_timestamp() - 6 * 60 * 60:
         remindtext("本地数据过时超过6小时，重新获取steam价格中，请稍等......")
         ratio = getRate()
     if ratio == -1:
@@ -126,7 +149,7 @@ def calculate():
             if kd[0] not in money or kd[1] not in money:
                 raise NameError
             remindtext("汇率信息获取错误，重新获取汇率中，请稍等......")
-            rt = work(kd[0],kd[1],opt[0],opt[1])
+            rt = work(kd[0], kd[1], opt[0], opt[1])
             if rt == -1:
                 return -1
             myWin.hvEdit.setText('{:f}'.format(rt))
@@ -230,20 +253,43 @@ def showsec():
 def textchange():
     a = myWin.chbEdit.text()
     b = myWin.sellEdit.text()
-    print(a, b)
-    myWin.sjEdit.setText("")
+    c = myWin.sjEdit.text()
     myWin.blvEdit.setText("")
+    myWin.sjEdit.textChanged.disconnect(textchange)
+    myWin.sellEdit.textChanged.disconnect(textchange)
     try:
-        if b != "":
-            b = float(b)
-            c = b * 0.87
-            myWin.sjEdit.setText("{:.6f}".format(c))
-            if a != "":
+        sender = myWin.sender()
+        if sender == myWin.chbEdit:
+            c = float(c)
+            a = float(a)
+            d = a / c
+            myWin.blvEdit.setText('{:.6f}'.format(d))
+        if sender == myWin.sellEdit:
+            if b != "":
+                b = float(b)
+                c = b * 0.87
+                myWin.sjEdit.setText('{:.6f}'.format(c))
                 a = float(a)
                 d = a / c
                 myWin.blvEdit.setText('{:.6f}'.format(d))
+            else:
+                myWin.sjEdit.setText('')
+        if sender == myWin.sjEdit:
+            if c != "":
+                c = float(c)
+                b = c / 0.87
+                myWin.sellEdit.setText('{:.6f}'.format(b))
+                a = float(a)
+                d = a / c
+                myWin.blvEdit.setText('{:.6f}'.format(d))
+            else:
+                myWin.sellEdit.setText('')
     except ValueError:
         pass
+    except ZeroDivisionError:
+        pass
+    myWin.sjEdit.textChanged.connect(textchange)
+    myWin.sellEdit.textChanged.connect(textchange)
 
 
 def SetProxy():
@@ -271,6 +317,7 @@ class MyMainForm(QMainWindow, Ui_Form):
         self.historybuttom.clicked.connect(showsec)
         self.showtextBrowser = QTextBrowser(self)
         self.showtextBrowser.setHidden(True)
+        self.sjEdit.textChanged.connect(textchange)
         self.chbEdit.textChanged.connect(textchange)
         self.sellEdit.textChanged.connect(textchange)
         self.batbottom.clicked.connect(SetProxy)
@@ -311,6 +358,7 @@ class MyMainForm1(QMainWindow, Ui_secondForm):
 
 
 if __name__ == "__main__":
+    result = subprocess.run("修改代理设置.bat", shell=True)
     #固定的，PyQt5程序都需要QApplication对象。sys.argv是命令行参数列表，确保程序可以双击运行
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)

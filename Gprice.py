@@ -1,8 +1,6 @@
 import requests
-import re
-from bs4 import BeautifulSoup
-
-url = "https://steamcommunity.com/market/listings/730/StatTrak%E2%84%A2%20Nova%20%7C%20Koi%20%28Minimal%20Wear%29"
+import json
+import time
 
 CNYheader = {
     'Cookie':
@@ -18,42 +16,62 @@ ARSheader = {
 }
 USDheader = {}
 
+header = {
+    'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+}
+
+with open("currency.json", 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
 
 def getprice(wrice, header, type, port):
+    time.sleep(0.5)
+    global data
     proxy = {
         'http': '127.0.0.1:{}'.format(port),
         'https': '127.0.0.1:{}'.format(port)
     }
+    para = {
+        'country': 'HK',
+        'language': 'schinese',
+        'currency': '{}'.format(data[type]["eCurrencyCode"]),
+        'item_nameid': '14962973',
+        'two_factor': '0'
+    }
+    url = "https://steamcommunity.com/market/itemordershistogram?country=HK&language=schinese&currency={}&item_nameid=14962973&two_factor=0".format(
+        data[type]["eCurrencyCode"])
     # 发送GET请求并获取响应
-    response = requests.get(url, proxies=proxy, headers=header)
+    response = requests.get(url, proxies=proxy, headers=header, params=para)
 
     # 检查请求是否成功
     if response.status_code == 200:
         #with open('test.html','w',encoding='utf-8') as f:
         #    f.write(response.text)
-        soup = BeautifulSoup(response.content, "lxml")
-        element = soup.find(
-            "span",
-            class_="market_listing_price market_listing_price_with_fee")
+        elements = response.json()
+        element = elements['sell_order_graph'][0][0]
         if element:
-            price = element.text.strip()
-            print("第一个元素价格:", price)
-            patten = r'[0-9,.]+'
-            matches = re.findall(patten, price)
-            if type in ('ARS', 'TRY'):
-                value = ''.join(matches).replace('.', '').replace(',', '.')
-            else:
-                value = ''.join(matches).replace(',', '')
-            wrice[type] = float(value)
+            #print("第一个元素价格:", element)
+            wrice[type] = float(element)
+            return 0
         else:
-            print("未找到匹配元素")
+            return -1
     else:
-        print("请求失败:", response.status_code)
+        return -1
 
 
 def Fprice(wrice, port):
-    getprice(wrice, ARSheader, 'ARS', port)
-    getprice(wrice, CNYheader, 'CNY', port)
-    getprice(wrice, TRYheader, 'TRY', port)
-    getprice(wrice, USDheader, 'USD', port)
-    print(wrice)
+    rcode = 0
+    rcode = min(getprice(wrice, header, 'ARS', port), rcode)
+    rcode = min(getprice(wrice, header, 'CNY', port), rcode)
+    rcode = min(getprice(wrice, header, 'TRY', port), rcode)
+    rcode = min(getprice(wrice, header, 'USD', port), rcode)
+    return rcode
+    #print(wrice)
+
+
+if __name__ == '__main__':
+    res = {}
+    with open('port.txt', 'r') as f:
+        port = int(f.readline())
+    Fprice(res, port)
