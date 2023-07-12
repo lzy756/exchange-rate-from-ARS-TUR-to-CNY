@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from bs4 import BeautifulSoup
 
 CNYheader = {
     'Cookie':
@@ -70,8 +71,37 @@ def Fprice(wrice, port):
     #print(wrice)
 
 
+def Getname(url, port):
+    proxy = {
+        'http': '127.0.0.1:{}'.format(port),
+        'https': '127.0.0.1:{}'.format(port)
+    }
+    qheader = {
+        'Accept-Language':
+        'zh-CN,zh;q=0.9,en;q=0.8',
+        'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+    }
+    response = requests.get(url, proxies=proxy, headers=qheader)
+    #with open("test.html", 'w', encoding='utf-8') as f:
+    #    f.write(response.text)
+    # 解析 HTML
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    # 使用选择器选择元素并获取文本内容
+    element = soup.select_one("#mainContents > div.market_listing_nav_container > div > a:nth-child(2)")
+    if element:
+        text = element.text.strip()
+        return text
+    else:
+        return None
+
+
 if __name__ == '__main__':
     res = {}
     with open('port.txt', 'r') as f:
         port = int(f.readline())
-    Fprice(res, port)
+    print(
+        Getname(
+            "https://steamcommunity.com/market/listings/570/Astral%20Drift?buffPrice=22",
+            port))

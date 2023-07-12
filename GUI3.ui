@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>decform</class>
+ <widget class="QWidget" name="decform">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>688</width>
+    <height>431</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>688</width>
+    <height>431</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>688</width>
+    <height>431</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>收藏饰品列表</string>
+  </property>
+  <widget class="QListWidget" name="itemList">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>451</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>40</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>添加饰品</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>130</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>删除饰品</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="detailsButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>230</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>查看详情</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="editButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>330</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>修改饰品</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sumButton">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>40</y>
+     <width>51</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>饰
+品
+统
+计</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sortButton">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>230</y>
+     <width>51</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑 Light</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>饰
+品
+排
+序</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
