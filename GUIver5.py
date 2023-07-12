@@ -165,6 +165,8 @@ def noinfowork(kd1, kd2):
 
 def work(kd1, kd2, tsr1, tsr2):
     rt = noinfowork(kd1, kd2)
+    if (rt == -1):
+        return -1
     myWin.hvEdit.setText('{:f}'.format(rt))
     myWin.showtextBrowser.append('现在' + tsr1 + '对' + tsr2 +
                                  '的汇率为：{:f}'.format(rt))
@@ -442,12 +444,12 @@ class ItemListWindow(QMainWindow, Ui_decform):
         for i in range(self.itemList.count()):
             item = self.itemList.item(i)
             # 设置自定义排序键，这里以项的长度为例
-            outprice=item.data(1).outprice
-        #    if item.data(1).currency!='人民币':
-        #        outprice=noinfowork(money[currency_options.index(item.data(1).currency)],'CNY')*outprice
-        #    if outprice < 0:
-        #        self.showwarning('获取steam汇价失败，请稍后重试')
-        #        return -1
+            outprice = item.data(1).outprice
+            #    if item.data(1).currency!='人民币':
+            #        outprice=noinfowork(money[currency_options.index(item.data(1).currency)],'CNY')*outprice
+            #    if outprice < 0:
+            #        self.showwarning('获取steam汇价失败，请稍后重试')
+            #        return -1
             item.setData(Qt.UserRole, outprice)
         self.itemList.sortItems(Qt.AscendingOrder)
 
