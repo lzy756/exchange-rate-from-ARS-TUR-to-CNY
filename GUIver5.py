@@ -104,6 +104,9 @@ def on_closing():
         except TypeError:
             with open(filepath, 'w') as file:
                 json.dump(ratio, file)
+        except KeyError:
+            with open(filepath, 'w') as file:
+                json.dump(ratio, file)
     else:
         if ratio != -1:
             with open(filepath, 'w') as file:
