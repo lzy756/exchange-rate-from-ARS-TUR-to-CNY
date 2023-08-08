@@ -50,6 +50,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -68,6 +69,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -86,6 +88,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -104,6 +107,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -122,6 +126,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -143,6 +148,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">

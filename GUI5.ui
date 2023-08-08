@@ -37,6 +37,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -61,6 +62,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -85,6 +87,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -109,6 +112,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">

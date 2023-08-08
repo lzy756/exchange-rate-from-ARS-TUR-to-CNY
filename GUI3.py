@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\GUI3.ui'
+# Form implementation generated from reading ui file 'GUI3.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -25,36 +25,42 @@ class Ui_decform(object):
         self.addButton.setGeometry(QtCore.QRect(480, 40, 91, 41))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.addButton.setFont(font)
         self.addButton.setObjectName("addButton")
         self.deleteButton = QtWidgets.QPushButton(decform)
         self.deleteButton.setGeometry(QtCore.QRect(480, 130, 91, 41))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.deleteButton.setFont(font)
         self.deleteButton.setObjectName("deleteButton")
         self.detailsButton = QtWidgets.QPushButton(decform)
         self.detailsButton.setGeometry(QtCore.QRect(480, 230, 91, 41))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.detailsButton.setFont(font)
         self.detailsButton.setObjectName("detailsButton")
         self.editButton = QtWidgets.QPushButton(decform)
         self.editButton.setGeometry(QtCore.QRect(480, 330, 91, 41))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.editButton.setFont(font)
         self.editButton.setObjectName("editButton")
         self.sumButton = QtWidgets.QPushButton(decform)
         self.sumButton.setGeometry(QtCore.QRect(610, 40, 51, 131))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.sumButton.setFont(font)
         self.sumButton.setObjectName("sumButton")
         self.sortButton = QtWidgets.QPushButton(decform)
         self.sortButton.setGeometry(QtCore.QRect(610, 230, 51, 141))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
+        font.setPointSize(9)
         self.sortButton.setFont(font)
         self.sortButton.setObjectName("sortButton")
 

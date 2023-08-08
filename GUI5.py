@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\GUI5.ui'
+# Form implementation generated from reading ui file 'GUI5.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -21,6 +21,7 @@ class Ui_InfoDialog(object):
         self.curtypelabel.setGeometry(QtCore.QRect(50, 40, 301, 31))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
+        font.setPointSize(9)
         self.curtypelabel.setFont(font)
         self.curtypelabel.setStyleSheet("")
         self.curtypelabel.setText("")
@@ -30,6 +31,7 @@ class Ui_InfoDialog(object):
         self.getinlabel.setGeometry(QtCore.QRect(50, 100, 301, 31))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
+        font.setPointSize(9)
         self.getinlabel.setFont(font)
         self.getinlabel.setStyleSheet("")
         self.getinlabel.setText("")
@@ -39,6 +41,7 @@ class Ui_InfoDialog(object):
         self.selloutlabel.setGeometry(QtCore.QRect(50, 160, 301, 31))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
+        font.setPointSize(9)
         self.selloutlabel.setFont(font)
         self.selloutlabel.setStyleSheet("")
         self.selloutlabel.setText("")
@@ -48,6 +51,7 @@ class Ui_InfoDialog(object):
         self.ratiolabel.setGeometry(QtCore.QRect(50, 220, 301, 31))
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
+        font.setPointSize(9)
         self.ratiolabel.setFont(font)
         self.ratiolabel.setStyleSheet("")
         self.ratiolabel.setText("")

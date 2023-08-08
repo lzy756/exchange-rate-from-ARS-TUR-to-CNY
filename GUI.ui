@@ -50,6 +50,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <item>
@@ -70,6 +71,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <item>
@@ -90,6 +92,7 @@
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -121,6 +124,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -143,6 +147,15 @@ color: rgb(74, 255, 240);</string>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -156,6 +169,7 @@ color: rgb(74, 255, 240);</string>
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="focusPolicy">
@@ -190,6 +204,7 @@ background-color: transparent;</string>
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -232,6 +247,7 @@ background-color: transparent;</string>
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -255,6 +271,15 @@ color: rgb(74, 255, 240);
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
    <property name="readOnly">
     <bool>true</bool>
    </property>
@@ -271,6 +296,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -285,6 +311,15 @@ color: rgb(74, 255, 240);
      <width>111</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -302,6 +337,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -324,6 +360,15 @@ color: rgb(74, 255, 240);</string>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
@@ -337,6 +382,7 @@ color: rgb(74, 255, 240);</string>
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -360,6 +406,15 @@ color: rgb(74, 255, 240);
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
@@ -373,6 +428,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -396,6 +452,15 @@ color: rgb(74, 255, 240);
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
    <property name="readOnly">
     <bool>false</bool>
    </property>
@@ -412,6 +477,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -435,6 +501,15 @@ color: rgb(74, 255, 240);
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
    <property name="readOnly">
     <bool>true</bool>
    </property>
@@ -451,6 +526,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -477,6 +553,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -495,6 +572,7 @@ color: rgb(74, 255, 240);
    <property name="font">
     <font>
      <family>微软雅黑 Light</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
